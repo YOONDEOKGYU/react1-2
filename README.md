@@ -1,5 +1,62 @@
 # 윤덕규 201930119
 
+## 5월 1일 강의
+```
+훅의 규칙
+첫 번째 규칙은 무조건 최상위 레벨에서만 호출해야 한다는 것
+따라서 반복문이나 조건문 또는 중첩된 함수들 안에서 훅을 호출하면 안됨
+이 규칙에 따라서 훅은 컴포넌트가 렌더링 될 때마다 같은 순서로 호출되어야 함
+두 번째 규칙은 함수형 컴포넌트에서만 훅을 호출해야 한다는 것
+따라서 일반 자바스크립트 함수에서 훅을 호출하면 안됨
+혹은 함수형 컴포넌트 혹은 직접 만든 커스텀 훅에서만 호출 가능
+
+커스텀 훅
+직접 훅을 만들어 사용
+일반 컴포넌트와 마찬가지로 다른 훅을 호출하는 것은 무조건 커스텀 훅의 최상위 레벨에서만 해야 함
+이름은 use로 시작, 그렇지 않으면 다른 훅을 불러올 수 없음
+
+이벤트 처리하기
+DOM에서 클릭 이벤트를 처리하는 예제 코드
+<button onclick>="activate()">
+    Activate
+</button>
+React에서 클릭 이벤트 처리하는 예제 코드
+<button onClick={activate}>
+    Activate
+</button>
+둘의 차이점은
+1. 이벤트 이름이 onclick에서 onClick으로 변경(Camel case)
+2. 전달하려는 함수는 문자열에서 함수 그대로 전달
+이벤트가 발생했을 때 해당 이벤트를 처리하는 함수를 "이벤트 핸들러(Event Handler)"
+또는 이벤트가 발생하는 것을 계속 듣고 있다는 의미로 "이벤트 리스너(Event Listener)"
+
+이벤트 핸들러 추가하는 방법
+class Toggle extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {isToggleOn: true};
+
+        // callback에서 `this`를 사용하기 위해서는 바인딩을 필수적으로 해야 함.
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick() {
+        this.setState(prevState => ({
+            isToggleOn: !prevState.isToggleOn
+        }));
+    }
+
+    render() {
+        return (
+            <button onClick={this.handleClick}>
+                {this.state.isToggleOn ? '켜짐' : '꺼짐'}
+            </button>
+        );
+    }
+}
+```
+
 ## 4월 17일 강의
 ```
 훅(Hook)
