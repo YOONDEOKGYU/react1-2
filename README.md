@@ -1,5 +1,44 @@
 # 윤덕규 201930119
 
+## 5월 8일 강의
+```
+Arguments 전달하기
+함수를 정의할 때는 파라미터(parameter) 혹은 매개변수, 함수를 사용할 때는 아귀먼트(Argument) 혹은 인수라고 부름
+이벤트 핸들러에 매개변수를 전달해야 하는 경우도 많음
+<button onClick={(event) => this.deleteItem(id, event)}>삭제하기</button>
+<button onClick={this.deleteItem.bind(this.id)}>삭제하기</button>
+위 코드는 모두 동일한 역할을 하지만 하나는 화살표함수, 하나는 bind를 사용함
+event 매개변수는 리액트의 이벤트 객체를 의미
+첫 번째 코드는 명시적으로 event를 매개변수로 넣어주었고, 두 번째 코드는 id 이후 두 번째 변수로 event가 자동 전달 됨
+함수형 컴포넌트에서 이벤트 핸들러에 매개변수를 전달할 땐 다음과 같이 함
+ConfirmButton 컴포넌트 만들기
+클래스 필드 문법 사용하기
+함수 커모넌트로 변경하기
+class ConfirmButton extends React.Component{
+    constructor(props){
+        super(props);
+
+        this.state
+    }
+}
+조건부 랜더링이란?
+여기서 조건이란 우리가 알고 있는 조건문이 조건임
+props로 전달 받은 isLoggendln이 true면 을, false면 을 return함
+랜더링 해야될 컴포넌트를 변수처럼 사용하는 방법이 앨리먼트 변수
+state에 따라 button 변수에 컴포넌트의 객체를 저장하여 return문에서 사용하고 있음
+인라인 조건
+인라인 if
+if문을 직접 사용하지 않고, 동일한 효과를 내기 위해 && 논리 연산자를 사용
+&&는 and 연산자로 모든 조건이 참일 때만 참이 됨
+첫 번째 조건이 거짓이면 두 번째 조건은 판단할 필요도 없이 단축평가
+판단만 하지 않는 것이고 결과값은 그대로 리턴
+인라인 if-else
+삼항 연산자를 사용
+문자열이나 엘리먼트를 넣어 사용할 수도 있음
+컴포넌트 렌더링 막기
+컴포넌트를 렌더링하고 싶지 않을 때에는 null을 리턴
+```
+
 ## 5월 1일 강의
 ```
 훅의 규칙
