@@ -1,9 +1,114 @@
 # 윤덕규 201930119
 
+## 6월 11일 강의
+### Containment와 Specialization을 같이 사용하기
+* Containment를 위해서 props.children을 사용하고, Specialization을 위해 직접 정의한 props를 사용하면 됩니다.
+* Dialog 컴포넌트는 이전의 것과 비슷한데 Containment를 위해 끝부분에 props.children을 추가했습니다.
+* Dialog를 사용하는 SignUpDialog는 Specialization을 위해 props인 title, message에 값을 넣어주고 있고, 입력을 받기 위해 <input/>과 <button></button>을 사용합니다. 이 두 개의 태그는 모두 props.children으로 전달되어 Dialog에 표시됩니다.
+* 이러한 형태로 Containment와 Specialization을 동시에 사용할 수 있습니다.
+
+### 상속
+* 합성과 대비되는 개념으로 상속(inheritance)이 있습니다.
+* 자식 클래스는 부모 클래스가 가진 변수나 함수 등의 속성을 모두 갖게 되는 개념입니다.
+* 하지만 리액트에서는 상속보다는 합성을 통해 새로운 컴포넌트를 생성합니다.
+* 복잡한 컴포넌트를 쪼개 여러 개의 컴포넌트로 만들고, 만든 컴포넌트들을 조합하여 새로운 컴포넌트를 만들자!
+
+### 컨텍스트란 무엇인가?
+* 기존의 일반적인 리액트에서는 데이터가 컴포넌트의 props를 통해 부모에서 자식으로 단방향으로 전달되었습니다.
+* 컨텍스트는 리액트 컴포넌트들 사이에서 데이터를 기존의 props를 통해 전달하는 방식 대신 '컴포넌트 트리를 통해 곧바로 컴포넌트에 전달하는 새로운 방식'을 제공합니다.
+* 이것을 통해 어떤 컴포넌트라도 쉽게 데이터에 접근할 수 있습니다.
+* 컨텍스트를 사용하면 일일이 props로 전달할 필요 없이 그림처럼 데이터를 필요로 하는 컴포넌트에 곧바로 데이터를 전달할 수 있습니다.
+![alt text](image-1.png)
+![alt text](image-2.png)
+
+### 언제 컨텍스트를 사용해야 할까?
+* 여러 컴포넌트에서 자주 필요로 하는 데이터는 로그인 여부, 로그인 정보, UI 테마, 현재 선택된 언어 등이 있습니다.
+* props를 통해 데이터를 전달하는 기존 방식은 실제 데이터를 필요로 하는 컴포넌트까지의 깊이가 깊어질수록 복잡해집니다.
+* 또한 반복적인 코드를 계속해서 작성해 주어야 하기 때문에 비효율적이고 가독성이 떨어집니다.
+* 컨텍스트를 사용하면 이러한 방식을 깔끔하게 개선할 수 있습니다.
+* 컨텍스트를 사용하려면 컴포넌트의 상위 컴포넌트에서 Provider로 감싸주어야 합니다.
+
+### 컨텍스트를 사용하기 전에 고려할 점
+* 컨텍스트는 다른 레벨의 많은 컴포넌트가 특정 데이터를 필요로 하는 경우에 주로 사용합니다.
+* 하지만 무조건 컨텍스트를 사용하는 것이 좋은 것은 아닙니다.
+* 왜냐하면 컴포넌트와 컨텍스트가 연동되면 재사용성이 떨어지기 때문입니다.
+* 따라서 다른 레벨의 많은 컴포넌트가 데이터를 필요로 하는 경우가 아니면 props를 통해 데이터를 전달하는 컴포넌트 합성 방법이 더 적합합니다.
+* 하지만 데이터가 많아질수록 상위 컴포넌트가 점점 더 복잡해지기 때문에 모든 상황에서 좋은 것은 아닙니다.
+* 이런 경우 하위 컴포넌트를 여러 개의 변수로 나눠서 전달하면 됩니다.
+* 하지만 어떤 경우에는 하나의 데이터에 다양한 레벨에 있는 중첩된 컴포넌트들의 접근이 필요할 수 있습니다.
+* 이런 경우라면 컨텍스트가 유리합니다.
+* 컨텍스트는 해당 데이터와 데이터의 변경사항을 모두 하위 컴포넌트들에게 broadcast 해주기 때문입니다.
+* 컨텍스트를 사용하기에 적합한 데이터의 대표적인 예로는 '지역 정보', 'UI 테마' 그리고 '캐싱된 데이터' 등이 있습니다.
+
+### React.createContext
+* 컨텍스트를 생성하기 위한 함수입니다.
+* 파라메타에는 기본값을 넣어주면 됩니다.
+* 하위 컴포넌트는 가장 가까운 상위 레벨의 Provider로부터 컨텍스트를 받게 되지만, 만일 Provider를 찾을 수 없다면 설정한 기본값을 사용하게 됩니다.
+```js
+const MyContext = React.createContext(기본값);
+```
+
+### Context.Provider
+* Context.Provider 컴포넌트로 하위 컴포넌트들을 감싸주면 모든 하위 컴포넌트들이 해당 컨텍스트의 데이터에 접근할 수 있게 됩니다.
+```js
+<MyContext.Provider value={/*some value*/}>
+```
+* Provider 컴포넌트에는 value 라는 prop이 있고, 이것은 Provider 컴포넌트 하위에 있는 컴포넌트에게 전달됩니다.
+* 하위 컴포넌트를 consumer 컴포넌트라고 부릅니다.
+
+### Class.contextType
+* Provider 하위에 있는 클래스 컴포넌트에서 컨텍스트의 데이터에 접근하기 위해 사용합니다.
+* Class 컴포넌트는 더이상 사용하지 않으므로 참고만 합니다.
+
+### Context.Consumer
+* 함수형 컴포넌트에서 Context.Consumer를 사용하여 컨텍스트를 구독할 수 있습니다.
+* 데이터를 소비한다는 뜻에서 consumer 컴포넌트라고도 부릅니다.
+```js
+<MyContext.Consumer>
+    {value => /* 컨텍스트의 값에 따라서 컴포넌트들을 렌더링*/}
+</MyContext.Consumer>
+```
+* consumer 컴포넌트는 컨텍스트 값의 변화를 지켜보다가 값이 변경되면 재렌더링됩니다.
+* 하나의 Provider 컴포넌트는 여러 개의 consumer 컴포넌트와 연결될 수 있습니다.
+* 상위 레벨에 매칭되는 Provider가 없을 경우 기본값이 사용됩니다.
+
+### Context.displayName
+* 컨텍스트 객체는 displayName이라는 문자열 속성을 갖습니다.
+* 크롬의 리액트 개발자 도구에서는 컨텍스트의 Provider나 Consumer를 표시할 때 displayName을 함께 표시해 줍니다.
+```js
+const MyContext = React.createContext(/* some value */);
+MyContext.displayName = 'MyDisplayName';
+
+// 개발자 도구에 "MyDisplayName.Provider"로 표시됨 */
+<MyContext.Provider>
+
+/* 개발자 도구에 "MyDisplayName.Consumer"로 표시됨 */
+<MyContext.Consumer>
+```
+
+### 여러 개의 컨텍스트 사용하기
+* 여러 개의 컨텍스트를 동시에 사용하려면 Context.Provider를 중첩해서 사용합니다.
+* 두 개 또는 그 이상의 컨텍스트 값이 자주 함께 사용될 경우 모든 값을 한 번에 제공해 주는 별도의 render prop 컴포넌트를 직접 만드는 것을 고려하는 것이 좋습니다.
+
+### useContext
+* 함수형 컴포넌트에서 컨텍스트를 사용하기 위해 컴포넌트를 매번 Consumer 컴포넌트로 감싸주는 것보다 좋은 Hook을 사용하는 방법이 있습니다.
+* useContext() 훅은 React.createContext() 함수 호출로 생성된 컨텍스트 객체를 인자로 받아서 현재 컨텍스트의 값을 리턴합니다.
+```js
+function MyComponent(props) {
+    const value = use Context(MyContext);
+
+    return ()
+}
+```
+* 이 방법도 가장 가까운 상위 Provider로부터 컨텍스트의 값을 받아옵니다.
+* 만일 값이 변경되면 변경된 값과 함께 useContext() 훅을 사용하는 컴포넌트가 재렌더링됩니다.
+* useContext() 훅을 사용할 때에는 파라미터로 컨텍스트 객체를 넣어줘야 합니다.
+* Consumer나 Provider를 넣으면 안됨!
+
 ## 6월 5일 강의
 ### Shared State
 * Shared state는 state의 공유를 의미합니다.
-* 같은 부모 컴포넌트의 state를 자식 컴포넌트가 공유해서 사용한느 것입니다.
+* 같은 부모 컴포넌트의 state를 자식 컴포넌트가 공유해서 사용하는 것입니다.
 * 다음 그림은 부모 컴포넌트가 섭씨 온도의 state를 갖고 있고, 이것을 컴포넌트C와 컴포넌트F가 공유해서 사용하는 것을 보여줍니다.
 
 ![alt text](image.png)
