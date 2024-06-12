@@ -1,5 +1,245 @@
 # 윤덕규 201930119
 
+## 6월 12일 강의
+### CSS란?
+* CSS는 Cascading Style Sheets의 약자로 스타일링을 위한 언어입니다.
+* Cascading이란 계단식이라는 뜻으로 한 엘리먼트에 여러 스타일이 적용될 경우 스타일간의 충돌을 막기 위해 계단식으로 스타일을 적용시키는 규칙을 갖고 있습니다.
+* 즉 하나의 스타일이 여러 개의 엘리먼트에 적용될 수도 있고, 하나의 엘리먼트에도 여러 개의 스타일이 적용될 수도 있습니다.
+* 엘리먼트에 스타일이 적용되는 규칙을 selector(선택자)라고 합니다. CSS는 이 선택자와 스타일로 이루어집니다.
+
+### CSS 문법과 선택자
+* 선택자를 먼저 쓰고 다음에 적용할 스타일을 중괄호 안에 세미콜론으로 구분하여 하나씩 작성합니다.
+![alt text](image-3.png)
+* 선택자는 HTML 엘리먼트를 직접 넣어도 되고, 엘리먼트의 조합 혹은 class의 형태로 작성 가능합니다.
+* 스타일은 property(속성)과 key value(키 값)로 이루어지며, 이들은 콜론(:)으로 구분하고, 각 스타일은 세미콜론(;)으로 구분합니다.
+
+### 선택자(Selector)
+* 스타일을 어떤 엘리먼트에 적용할지 선택하게 해주는 것
+
+### 선택자 유형
+#### 엘리먼트 선택자
+* HTML 태그의 이름으로 엘리먼트를 선택
+```js
+h1 {
+  color: green;
+}
+```
+
+#### id 선택자
+* 엘리먼트의 id 속성으로 엘리먼트를 선택
+* 샵(#) 뒤에 아이디를 넣어 사용
+```js
+#section {
+	background-color: black;
+}
+```
+
+#### 클래스 선택자
+* 엘리먼트의 클래스 속성으로 엘리먼트를 선택
+* . 뒤에 클래스명을 넣어서 사용
+* 특정 HTML 태그에 클래스가 있는 경우에 스타일을 적용하고 싶으면 HTML 태그명 뒤에 점을 찍고 클래스 이름을 넣어주면 됨
+```js
+.medium {
+	font-size: 20px;
+}
+
+p.medium {
+	font-size: 20px;
+}
+```
+
+#### 전체 선택자
+* 전체 엘리먼트에 적용하기 위한 선택자
+* 한국에서는 흔히 별표라고 부르는 Asterisk(*) 사용
+```js
+* {
+	font-size: 20px;
+    color: blue;
+}
+```
+
+#### 그룹 선택자
+* 여러 가지 선택자를 그룹으로 묶어 하나의 스타일을 적용하기 위해 사용하는 선택자
+* 각 선택자를 콤마(,)로 구분하여 적용
+```js
+h1, h2, p {
+	color: black;
+    text-align: center;
+}
+```
+
+#### 상태 선택자
+* 엘리먼트의 다양한 상태에 따라 스타일을 적용하기 위한 선택자
+
+##### :hover
+* 마우스 커서가 엘리먼트 위에 올라왔을 때
+
+##### :active
+* 주로 <a> 태그에 사용, 엘리먼트가 클릭됐을 때
+
+##### :focus
+* 주로 <input> 태그에 사용, 엘리먼트가 초점을 갖고 있을 경우
+
+##### :checked
+* radio button이나 checkbox 같은 유형의 <input> 태그가 체크되어 있는 경우
+
+##### :first-child, last-child
+* 상위 엘리먼트를 기준으로 각각 첫 번째 child, 마지막 child일 경우
+```js
+button:hover {
+	font-weight: bold;
+}
+
+a:active {
+	color: red;
+}
+
+input:focus {
+	color: #000000;
+}
+
+option:checked {
+	background: #00ff00;
+}
+
+p:first-child {
+	background: #ff0000;
+}
+
+p:last-child {
+	background: #0000ff;
+}
+```
+
+### 레이아웃과 관련된 속성
+* 화면에 엘리먼트를 어떻게 배치할 것인지를 정의합니다.
+* 가장 중요한 속성은 display입니다.
+* 모든 엘리먼트는 기본 display 속성을 갖고 있지만 이 기본값을 변경해 줄 수 있습니다.
+```js
+div {
+	display: none | block | inline | flex;
+}
+```
+* none : 존재는 하지만 화면에 보이지 않는 것으로, 자바스크립트를 넣을 때 많이 사용합니다.
+* block : 세로로 정렬되며, with의 heigh를 가질 수 있습니다. 크기와 상관없이 한 줄을 점유합니다.
+* <div><table><h1>~<h6><p><form><ul><ol><li><dl><dt><dd><pre> 등
+* inline : 가로로 정렬되며, with의 heigh를 가질 수 없습니다. 컨텐츠의 크기만큼 공간을 점유합니다.
+* <span><a><br><em><strong><input><label><img>
+* inline-block : 기본적으로 inline의 특성을 갖지만, with와 heigh등 block의 특성을 사용할 수 있습니다.
+* flex : 컨테이너의 형태로 엘리먼트를 관리합니다. Mozilla 참고
+* 최근에는 Grid를 많이 사용합니다. Flex가 1차원적이라면 Grid는 2차원적으로 관리가 가능하기 때문입니다. Mozilla 참고
+
+* visibility 속성은 엘리먼트의 가시성을 정의합니다.
+```js
+div {
+    visibility: visible | hidden;
+}
+```
+* 여기서 중요한 것은 display:none과 visibility:hidden의 차이입니다.
+* display:none은 엘리먼트의 영역이 보이지 않고, visibility:hidden은 차지하는 영역은 보입니다.
+
+* position 속성은 엘리먼트를 어떻게 위치시킬 것인지를 정의합니다.
+```js
+div {
+    position: static | fixed | relative | absolute;
+}
+```
+* static은 원래 순서대로 위치시킵니다.
+* fixed는 window에 상대적 위치라고 정의하지만 지금은 sticky로 바뀌었습니다.
+* relative는 상대적, absolute는 절대적 위치를 지정합니다.
+
+### Flexbox
+* 기존 CSS의 레이아웃 사용의 불편한 부분을 개선하기 위해 등장
+* 플렉스 컨테이너와 플렉스 아이템으로 구성되며 컨테이너는 여러 개의 아이템을 포함
+* 컨테이너의 플렉스와 관련된 CSS 속성은 아이템들을 어떤 방향과 어떤 순서로 배치할 것인지를 정의
+* display:flex; 를 써서 엘리먼트를 플렉스 컨테이너로 사용
+```js
+div {
+	display: flex;
+    flex-direction: row | column | row-reverse | column-reverse;
+    align-items: stretch | flex-start | center | flex-end | baseline;
+    justify-content: flex-start | cnetner | flex-end | space-between | space-around;
+}
+```
+
+### 폰트와 관련된 속성
+```js
+#title {
+	font-family: "사용할 글꼴 이름", <일반적인 글꼴 분류>;
+    font-size: value;
+    font-weight: normal | bold;
+    font-style: normal | italic | oblique;
+}
+```
+
+### font-family
+* 어떤 글꼴을 사용할 것인지를 결정하는 속성
+* 지정한 글꼴을 찾지 못했을 경우를 대비해서 사용할 글꼴들을 순서대로 지정해 줘야 함
+
+### 일반적인 글꼴 분류
+#### serif
+* 각 글자의 모서리에 작은 테두리에 갖고 있는 형태의 글꼴
+
+#### sans-serif
+* 모서리에 테두리가 없이 깔끔한 선을 가진 글꼴이며 컴퓨터 모니터에는 serif보다 가독성이 좋음
+
+#### monospace
+* 모든 글자가 같은 가로 길이를 가지는 글꼴, 코딩을 할때 주로 사용
+
+#### cursive
+* 사람이 쓴 손글씨 모양의 글꼴
+
+#### fantasy
+* 장식이 들어간 형태의 글꼴
+
+### font-size
+* font-size 등 크기를 나타내는 단위로는 px, em, rem, vm 등이 있습니다.
+* 1em은 16px과 동일합니다.
+
+### font-weight
+* 글꼴의 두께와 관련된 속성
+* normal, bold를 사용하거나 100 ~ 900 까지 100 단위의 숫자로 된 값 사용
+* 숫자가 클 수록 글자의 두께가 두꺼워짐
+
+### font-style
+* 글꼴의 스타일을 지정하기 위한 속성
+* normal : 일반적인 글자의 형태
+* italic : 글자가 기울어진 형태로 나타남. 해당 글꼴이 italic을 지원하는지를 확인하고 사용해야 함
+* oblique : 글자가 비스듬한 형태로 나타남
+
+### styled-components
+* CSS 문법을 그대로 사용하면서 결과물을 스타일링된 컴포넌트 형태로 만들어 주는 오픈소스 라이브러리입니다.
+* 컴포넌트의 개념을 사용하고 있어 리액트 개발에 많이 사용됩니다.
+
+### styled-components 설치하기
+* npm install --save styled-components
+* npm v5부터는 자동 추가되어 사용하지 않아도 됩니다.
+
+### styled-components 기본 사용법
+* style-componenets는 tagged template literal을 사용하여 구성요소의 스타일을 지정
+
+#### template literal
+* literal을 템플릿 형태로 사용하는 자바스크립트의 문법
+* backticks(`)를 사용하여 문자열을 작성하고 그 안에 대체 가능한 expression을 넣는 방법
+* untagged template literal과 tagged template literal로 나뉨
+
+##### untagged template literal
+* 보통 문자열을 여러 줄에 걸쳐서 작성하거나 formatting을 하기 위해 사용
+
+##### tagged template literal
+* tag function를 호출하여 결과 리턴
+* tag 함수의 파라미터는 expression으로 구분된 문자열 배열과 expression이 순서대로 들어가게 됨
+
+### styled-components
+* tyled-components는 tagged template literal을 사용하여 CSS 속성이 적용된 리액트 컴포넌트를 만들어줌
+* backticks(`)로 둘러싸인 문자열 부분에 CSS 속성을 넣고 태그 함수 위치에는 styled.<HTML 태그> 형태로 사용하면 해당 HTML 태그에 CSS 속성들이 적용된 형태의 리액트 컴포넌트가 만들어짐
+
+### styled-components의 props 사용하기
+* props를 이용하여 조건이나 동적으로 변하는 값을 사용해서 스타일링을 할 수 있습니다.
+
+### styled-components의 스타일 확장하기
+* 먼저 정의한 스타일 컴포넌트에 스타일을 추가하여 재정의 하는것이 가능합니다.
+
 ## 6월 11일 강의
 ### Containment와 Specialization을 같이 사용하기
 * Containment를 위해서 props.children을 사용하고, Specialization을 위해 직접 정의한 props를 사용하면 됩니다.
